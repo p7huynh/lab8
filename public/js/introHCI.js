@@ -18,9 +18,35 @@ function initializePage() {
 // init jQuery gestures  
 function initGestures() {
 	// add gestures listener here
+	$(function(){
+		$(".judge-img").bind("taphold", tapholdHandler);
+
+		function tapholdHandler(event){
+			// get the id of the event source
+			var targetIDPrefix = event.target.id;
+			console.log("got prefix: " + targetIDPrefix);
+			//show bio
+			$("#" + targetIDPrefix + "-bio").show();
+		}
+	});
 }
 
 // init RSVP form submit listener
 function initRSVPForm() {
   // add your code here
+
+  $('#rsvpForm').submit(function(e){
+
+  	//Prevent
+  	e.preventDefault();
+  	console.log("submitting form...")
+  	var rsvpEmail = $('#rsvpEmail').val();
+  	//Send
+  	$.post('addRSVP',{ rsvpEmail: rsvpEmail }, postCallback);
+  });
+
+  function postCallback(res){
+  	alert("RSVO form successfully submitted!");
+  	$('#rsvpEmail').val(''); // Clear
+  }
 }
